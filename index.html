@@ -1,631 +1,1022 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <title>SARAVANAN </title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saravanan V — IT Professional</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  /* =========================================
+     RESET & BASE
+  ========================================= */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+  :root {
+    --blue:       #185FA5;
+    --blue2:      #378ADD;
+    --blue-light: #E6F1FB;
+    --dark:       #042C53;
+    --muted:      #6b7280;
+    --border:     #e5e7eb;
+    --bg2:        #f9fafb;
+    --green:      #16a34a;
+  }
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+  /* =========================================
+     ANIMATIONS
+  ========================================= */
+  @keyframes fadeUp    { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn    { from { opacity:0; } to { opacity:1; } }
+  @keyframes float     { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+  @keyframes pulse     { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+  @keyframes slideIn   { from{opacity:0;transform:translateX(-20px);} to{opacity:1;transform:translateX(0);} }
+  @keyframes typing    { 0%,100%{opacity:0;} 50%{opacity:1;} }
+  @keyframes glow      { 0%,100%{box-shadow:0 0 0 0 rgba(24,95,165,0.3);} 50%{box-shadow:0 0 0 12px rgba(24,95,165,0);} }
+  @keyframes orbit     { from{transform:rotate(0deg) translateX(100px) rotate(0deg);} to{transform:rotate(360deg) translateX(100px) rotate(-360deg);} }
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet"> 
+  .animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  /* =========================================
+     NAVBAR
+  ========================================= */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 58px;
+  }
+  .nav-brand {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--blue2);
+    animation: pulse 2s infinite;
+  }
+  .nav-links { display: flex; gap: 0; }
+  .nav-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { color: var(--blue); background: var(--blue-light); }
+  .hire-btn {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .hire-btn:hover { background: var(--dark); }
 
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+  /* =========================================
+     HERO
+  ========================================= */
+  #hero {
+    background: linear-gradient(135deg, #042C53 0%, #0C447C 50%, #185FA5 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 5rem 2rem;
+  }
+  .hero-orbs { position: absolute; inset: 0; pointer-events: none; }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(55,138,221,0.12);
+    animation: float 6s ease-in-out infinite;
+  }
+  .orb1 { width:300px; height:300px; top:-100px; right:-80px; animation-delay:0s; }
+  .orb2 { width:200px; height:200px; bottom:50px; left:-50px; animation-delay:2s; }
+  .orb3 { width:120px; height:120px; top:40%; right:20%; animation-delay:4s; }
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+  .hero-inner {
+    max-width: 880px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-avatar-wrap { position: relative; display: flex; justify-content: center; }
+  .hero-avatar {
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    border: 3px solid rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    font-weight: 700;
+    color: white;
+    animation: float 5s ease-in-out infinite, glow 3s ease-in-out infinite;
+  }
+  .hero-ring {
+    position: absolute;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(255,255,255,0.2);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .orbit-dot {
+    position: absolute;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #378ADD;
+    top: 50%; left: 50%;
+    animation: orbit 10s linear infinite;
+  }
+  .hero-badge {
+    position: absolute;
+    bottom: -8px; right: 10px;
+    background: #16a34a;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    animation: pulse 2.5s infinite;
+  }
+  .hero-text { animation: fadeUp 0.8s ease both; }
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 10px;
+  }
+  .hero-text h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 12px;
+  }
+  .typed-wrap {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 20px;
+    min-height: 24px;
+  }
+  #typed-cursor {
+    display: inline-block;
+    width: 2px; height: 16px;
+    background: rgba(255,255,255,0.7);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: typing 0.8s infinite;
+  }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+  .tag {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.85);
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-white {
+    background: #fff; color: var(--blue); border: none;
+    padding: 11px 22px; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    text-decoration: none; transition: all 0.2s; display: inline-block;
+  }
+  .btn-white:hover { transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent; color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.4);
+    padding: 11px 22px; border-radius: 8px;
+    font-size: 14px; cursor: pointer;
+    text-decoration: none; transition: all 0.2s; display: inline-block;
+  }
+  .btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+  /* =========================================
+     STATS BAR
+  ========================================= */
+  .stats-bar {
+    background: #f0f6ff;
+    border-bottom: 0.5px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: center;
+  }
+  .stat {
+    text-align: center;
+    padding: 0 2.5rem;
+    border-right: 0.5px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-size: 1.8rem; font-weight: 700; color: var(--blue); }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* =========================================
+     SECTIONS
+  ========================================= */
+  section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 6px;
+  }
+  .section-title {
+    font-size: 2rem; font-weight: 700;
+    letter-spacing: -0.5px; margin-bottom: 2rem; color: #1a1a1a;
+  }
+  .divider {
+    border: none;
+    border-top: 0.5px solid var(--border);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* =========================================
+     ABOUT
+  ========================================= */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .about-text p { color: var(--muted); line-height: 1.8; font-size: 15px; margin-bottom: 1rem; }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .info-card {
+    background: var(--bg2); border-radius: 10px;
+    padding: 12px 14px; border: 0.5px solid var(--border);
+    transition: all 0.2s;
+  }
+  .info-card:hover { border-color: var(--blue2); background: var(--blue-light); transform: translateY(-2px); }
+  .info-lbl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 3px; }
+  .info-val { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+  .avail {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #dcfce7; color: #15803d;
+    font-size: 12px; font-weight: 600;
+    padding: 5px 12px; border-radius: 20px; margin-top: 12px;
+  }
+  .green-dot { width:7px; height:7px; border-radius:50%; background:var(--green); animation:pulse 1.5s infinite; }
+
+  /* =========================================
+     TIMELINE
+  ========================================= */
+  .qual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .qual-col-title {
+    font-size: 13px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--blue); margin-bottom: 1.2rem;
+  }
+  .timeline { border-left: 2px solid var(--blue-light); padding-left: 1.5rem; }
+  .tl-item { position: relative; margin-bottom: 2rem; }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -1.85rem; top: 5px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px var(--blue2);
+  }
+  .tl-date { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--blue); margin-bottom: 3px; }
+  .tl-title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+  .tl-org { font-size: 13px; color: var(--muted); margin-bottom: 5px; }
+  .tl-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* =========================================
+     SKILLS
+  ========================================= */
+  .skills-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .skill-item { margin-bottom: 1.2rem; }
+  .skill-hd { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .skill-name { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+  .skill-pct { font-size: 13px; font-weight: 600; color: var(--blue); }
+  .bar-bg { background: #e5e7eb; height: 7px; border-radius: 4px; overflow: hidden; }
+  .bar-fill {
+    height: 7px; border-radius: 4px;
+    background: linear-gradient(90deg, var(--blue), var(--blue2));
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* =========================================
+     CONTACT
+  ========================================= */
+  .contact-wrap { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; }
+  .ci-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 1.4rem; }
+  .ci-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--blue-light);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.2s;
+  }
+  .ci-item:hover .ci-icon { background: var(--blue); transform: scale(1.1); }
+  .ci-icon svg { width:16px; height:16px; stroke:var(--blue); fill:none; stroke-width:2; transition:stroke 0.2s; }
+  .ci-item:hover .ci-icon svg { stroke: #fff; }
+  .ci-lbl { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .ci-val { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+
+  .form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .fg { margin-bottom: 10px; }
+  .fg label { display: block; font-size: 12px; font-weight: 500; margin-bottom: 5px; color: #1a1a1a; }
+  .fg input, .fg textarea {
+    width: 100%; padding: 10px 13px;
+    border: 0.5px solid var(--border);
+    border-radius: 8px; font-size: 13px;
+    font-family: inherit; color: #1a1a1a;
+    background: #fff; outline: none;
+    transition: border 0.2s;
+  }
+  .fg input:focus, .fg textarea:focus { border-color: var(--blue); }
+  .fg textarea { resize: vertical; min-height: 110px; }
+  .send-btn {
+    background: var(--blue); color: #fff; border: none;
+    width: 100%; padding: 12px; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; margin-top: 4px; font-family: inherit;
+  }
+  .send-btn:hover { background: var(--dark); transform: translateY(-1px); }
+  .send-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  #fstatus { display:none; margin-top:10px; padding:10px 14px; border-radius:8px; font-size:13px; }
+  .fs-ok  { background:#dcfce7; color:#15803d; border:0.5px solid #bbf7d0; }
+  .fs-err { background:#fee2e2; color:#dc2626; border:0.5px solid #fecaca; }
+
+  /* =========================================
+     FOOTER
+  ========================================= */
+  footer { background: #042C53; color: #fff; padding: 3rem 2rem; text-align: center; margin-top: 3rem; }
+  .foot-brand { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .socials { display: flex; justify-content: center; gap: 12px; margin-bottom: 1rem; }
+  .soc {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; text-decoration: none;
+    font-size: 12px; font-weight: 600;
+    transition: all 0.2s;
+  }
+  .soc:hover { background: var(--blue2); border-color: var(--blue2); transform: translateY(-3px); }
+  .foot-copy { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+  /* =========================================
+     CHATBOT
+  ========================================= */
+  .chatbot-launcher {
+    position: fixed; bottom: 28px; right: 28px; z-index: 1000;
+    width: 54px; height: 54px; border-radius: 50%;
+    background: var(--blue); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(24,95,165,0.35);
+    transition: all 0.3s;
+    animation: glow 3s ease-in-out infinite;
+  }
+  .chatbot-launcher:hover { transform: scale(1.1); background: var(--dark); }
+  .chatbot-launcher svg { width:24px; height:24px; stroke:#fff; fill:none; stroke-width:2; }
+  .chat-badge {
+    position: absolute; top: -4px; right: -4px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #ef4444; color: #fff;
+    font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #fff; animation: pulse 1.5s infinite;
+  }
+
+  .chatbot-panel {
+    position: fixed; bottom: 96px; right: 28px; z-index: 999;
+    width: 340px; background: #fff;
+    border-radius: 16px; border: 0.5px solid var(--border);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+    display: none; flex-direction: column; overflow: hidden;
+  }
+  .chatbot-panel.open { display: flex; }
+
+  .chat-header {
+    background: linear-gradient(135deg, var(--dark), var(--blue));
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .chat-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .chat-hinfo { flex: 1; }
+  .chat-hname { font-size: 14px; font-weight: 600; color: #fff; }
+  .chat-hstatus {
+    font-size: 11px; color: rgba(255,255,255,0.7);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .chat-status-dot { width:6px; height:6px; border-radius:50%; background:#4ade80; }
+  .chat-close {
+    background: transparent; border: none;
+    color: rgba(255,255,255,0.7); cursor: pointer;
+    padding: 4px; border-radius: 4px;
+    transition: color 0.2s; font-size: 20px; line-height: 1;
+  }
+  .chat-close:hover { color: #fff; }
+
+  .chat-msgs {
+    height: 280px; overflow-y: auto; padding: 14px;
+    display: flex; flex-direction: column; gap: 10px;
+    background: #fafbfc;
+  }
+  .msg { display: flex; gap: 8px; align-items: flex-end; animation: fadeUp 0.3s ease both; }
+  .msg.bot  { flex-direction: row; }
+  .msg.user { flex-direction: row-reverse; }
+  .msg-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--blue-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: var(--blue); flex-shrink: 0;
+  }
+  .msg-bubble {
+    max-width: 220px; padding: 9px 12px;
+    border-radius: 14px; font-size: 13px; line-height: 1.5;
+  }
+  .msg.bot  .msg-bubble { background:#fff; color:#1a1a1a; border:0.5px solid var(--border); border-bottom-left-radius:4px; }
+  .msg.user .msg-bubble { background:var(--blue); color:#fff; border-bottom-right-radius:4px; }
+
+  .typing-dots { display:flex; gap:4px; padding:4px 0; }
+  .typing-dots span {
+    width:6px; height:6px; border-radius:50%;
+    background:var(--muted); animation:typing 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay:0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay:0.4s; }
+
+  .chat-quick {
+    padding: 8px 10px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+    border-top: 0.5px solid var(--border);
+    background: #fff;
+  }
+  .qbtn {
+    background: var(--blue-light); color: var(--blue);
+    border: none; font-size: 11px; font-weight: 500;
+    padding: 5px 10px; border-radius: 12px; cursor: pointer;
+    transition: all 0.2s; font-family: inherit;
+  }
+  .qbtn:hover { background: var(--blue); color: #fff; }
+
+  .chat-input-row {
+    display: flex; gap: 8px; padding: 10px;
+    border-top: 0.5px solid var(--border); background: #fff;
+  }
+  .chat-input {
+    flex: 1; border: 0.5px solid var(--border);
+    border-radius: 20px; padding: 8px 14px;
+    font-size: 13px; font-family: inherit;
+    outline: none; transition: border 0.2s; color: #1a1a1a;
+  }
+  .chat-input:focus { border-color: var(--blue); }
+  .chat-send {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--blue); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.2s;
+  }
+  .chat-send:hover { background: var(--dark); transform: scale(1.05); }
+  .chat-send svg { width:14px; height:14px; stroke:#fff; fill:none; stroke-width:2.5; }
+
+  /* =========================================
+     RESPONSIVE
+  ========================================= */
+  @media (max-width: 640px) {
+    .hero-inner        { grid-template-columns: 1fr; text-align: center; }
+    .hero-avatar-wrap  { display: none; }
+    .about-grid        { grid-template-columns: 1fr; }
+    .qual-grid         { grid-template-columns: 1fr; }
+    .skills-wrap       { grid-template-columns: 1fr; }
+    .contact-wrap      { grid-template-columns: 1fr; }
+    .form-row2         { grid-template-columns: 1fr; }
+    .stats-bar         { flex-wrap: wrap; gap: 1rem; }
+    .stat              { border-right: none; }
+    .chatbot-panel     { width: calc(100vw - 40px); right: 20px; }
+    .hero-text h1      { font-size: 2.2rem; }
+  }
+</style>
 </head>
+<body>
 
-<body data-spy="scroll" data-target=".navbar" data-offset="51">
-    <!-- Navbar Start -->
-    <nav class="navbar fixed-top shadow-sm navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-lg-5">
-        <a href="index.html" class="navbar-brand ml-lg-3">
-            <h1 class="m-0 display-5"><span class="text-primary">SARAVANAN</span>V</h1>
-        </a>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse px-lg-3" id="navbarCollapse">
-            <div class="navbar-nav m-auto py-0">
-                <a href="#home" class="nav-item nav-link active">Home</a>
-                <a href="#about" class="nav-item nav-link">About</a>
-                <a href="#qualification" class="nav-item nav-link">Quality</a>
-                <a href="#skill" class="nav-item nav-link">Skill</a>
-                <a href="#service" class="nav-item nav-link">Service</a>
-               <!-- <a href="#portfolio" class="nav-item nav-link">Portfolio</a>
-                <a href="#testimonial" class="nav-item nav-link">Review</a>
-                <a href="#blog" class="nav-item nav-link">Blog</a> -->
-                <a href="#contact" class="nav-item nav-link">Contact</a>
-            </div>
-            <a href="" class="btn btn-outline-primary d-none d-lg-block">Hire Me</a>
-        </div>
-    </nav>
-    <!-- Navbar End -->
+<!-- ===================== NAVBAR ===================== -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-dot"></div>
+    SARAVANAN V
+  </div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="hire-btn">Hire Me</a>
+</nav>
 
-
-    <!-- Video Modal Start -->
-    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>        
-                    <!-- 16:9 aspect ratio -->
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow="autoplay"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- ===================== HERO ===================== -->
+<div id="hero">
+  <div class="hero-orbs">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-avatar-wrap">
+      <div class="hero-ring">
+        <div class="orbit-dot"></div>
+      </div>
+      <div class="hero-avatar">SV</div>
+      <div class="hero-badge">Available</div>
     </div>
-    <!-- Video Modal End -->
-
-
-    <!-- Header Start -->
-    <div class="container-fluid bg-primary d-flex align-items-center mb-5 py-5" id="home" style="min-height: 100vh;">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-5 px-5 pl-lg-0 pb-5 pb-lg-0">
-                    <img class="img-fluid w-100 rounded-circle shadow-sm" src="img/profile.jpeg" alt="">
-                </div>
-                <div class="col-lg-7 text-center text-lg-left">
-                    <h3 class="text-white font-weight-normal mb-3">I'm</h3>
-                    <h1 class="display-3 text-uppercase text-primary mb-2" style="-webkit-text-stroke: 2px #ffffff;">SARAVANAN V</h1>
-                    <h1 class="typed-text-output d-inline font-weight-lighter text-white"></h1>
-                    <div class="typed-text d-none">System Admin, Web Designer, Web Developer, Front End Developer</div>
-                    <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
-                        <a href="Resume/My resume.pdf" class="btn btn-outline-light mr-5">Download CV</a>
-                       
-                        <!-- <button type="button" class="btn-play" data-toggle="modal"
-                            data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-target="#videoModal">
-                            <span></span>
-                        </button>-->
-                        <!--<h5 class="font-weight-normal text-white m-0 ml-4 d-none d-sm-block">Play Video</h5>-->
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="hero-text">
+      <div class="hero-eyebrow">IT Professional · Bangalore</div>
+      <h1>Saravanan V</h1>
+      <div class="typed-wrap">
+        <span id="typed-out"></span><span id="typed-cursor"></span>
+      </div>
+      <div class="hero-tags">
+        <span class="tag">System Admin</span>
+        <span class="tag">Web Developer</span>
+        <span class="tag">Networking</span>
+        <span class="tag">WordPress</span>
+        <span class="tag">10 Yrs Exp</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-white">Hire Me</a>
+        <a href="#about"   class="btn-ghost">Learn More</a>
+        <a href="Resume/My resume.pdf" class="btn-ghost">Download CV</a>
+      </div>
     </div>
-    <!-- Header End -->
+  </div>
+</div>
 
+<!-- ===================== STATS ===================== -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Years Experience</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Companies</div></div>
+  <div class="stat"><div class="stat-num">MCA</div><div class="stat-label">Qualification</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Dedication</div></div>
+</div>
 
-    <!-- About Start -->
-    <div class="container-fluid py-5" id="about">
-        <div class="container">
-            <div class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">About</h1>
-                <h1 class="position-absolute text-uppercase text-primary">About Me</h1>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-lg-5 pb-4 pb-lg-0">
-                    <img class="img-fluid rounded w-100" src="img/profile1.jpeg" alt="">
-                </div>
-                <div class="col-lg-7">
-                    <h3 class="mb-4">System Admin & Web Developer</h3>
-                    <p> IT Support Specialist with hands-on expertise in system administration, networking, server management, virtualization, and end-user support. Proven ability to troubleshoot complex technical issues and provide secure, efficient IT solutions. Strong communication skills and experience supporting diverse teams including international stakeholders.
-</p>
-                    <div class="row mb-3">
-                        <div class="col-sm-6 py-2"><h6>Name: <span class="text-secondary">SARAVANAN V</span></h6></div>
-                         <div class="col-sm-6 py-2"><h6>Degree: <span class="text-secondary">Master</span></h6></div>
-                        <div class="col-sm-6 py-2"><h6>Experience: <span class="text-secondary">10 Years</span></h6></div>
-                        <div class="col-sm-6 py-2"><h6>Phone: <span class="text-secondary">+91 9597952600</span></h6></div>
-                        <div class="col-sm-6 py-2"><h6>Email: <span class="text-secondary">saranv91@outlook.com</span></h6></div>
-                        <div class="col-sm-6 py-2"><h6>Address: <span class="text-secondary">#19 pwd road b,Narayanpura , Bangalore</span></h6></div>
-                        <div class="col-sm-6 py-2"><h6>Freelance: <span class="text-secondary">Available</span></h6></div>
-                    </div>
-                    <a href="" class="btn btn-outline-primary mr-4">Hire Me</a>
-                    <a href="" class="btn btn-outline-primary">Learn More</a>
-                </div>
-            </div>
-        </div>
+<!-- ===================== ABOUT ===================== -->
+<section id="about">
+  <p class="section-eyebrow animate">Who I am</p>
+  <h2 class="section-title animate">About Me</h2>
+  <div class="about-grid animate">
+    <div class="about-text">
+      <p>IT Support Specialist with hands-on expertise in system administration, networking, server management, virtualization, and end-user support.</p>
+      <p>Proven ability to troubleshoot complex technical issues and provide secure, efficient IT solutions. Strong communication skills with experience supporting international stakeholders.</p>
+      <div class="avail">
+        <div class="green-dot"></div>
+        Available for freelance work
+      </div>
     </div>
-    <!-- About End -->
-
-
-    <!-- Qualification Start -->
-    <div class="container-fluid py-5" id="qualification">
-        <div class="container">
-            <div class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Quality</h1>
-                <h1 class="position-absolute text-uppercase text-primary">Education & Expericence</h1>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h3 class="mb-4">My Education</h3>
-                    <div class="border-left border-primary pt-2 pl-4 ml-2">
-                        <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">Master In Computer Application</h5>
-                            <p class="mb-2"><strong>Jain University</strong> | <small>2023 - 2025</small></p>
-                            <p>Bangalore</p>
-                        </div>
-                        <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">Bachelor of computer application</h5>
-                            <p class="mb-2"><strong>Annamalai University, India, </strong> | <small>2021 - 2023</small></p>
-                            <p>Bangalore</p>
-                        </div>
-                        <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">Diploma In IT</h5> 
-                            <p class="mb-2"><strong> DOTE </strong> | <small>2009 - 2012</small></p>
-                            <p> The Salem Polytechnic College, Salem ,TN </p>
-                      </div>
-                        <!--  
-                          <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">10 th</h5> 
-                            <p class="mb-2"><strong> State Board</strong> | <small>2006 - 2007</small></p>
-                            <p> Hindu Higher secondary school, Ambur ,TN</p>
-                    </div>
-                        -->
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <h3 class="mb-4">My Expericence</h3>
-                    <div class="border-left border-primary pt-2 pl-4 ml-2">
-                        <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">System Admin</h5>
-                            <p class="mb-2"><strong> ITC Infotech, Bangalore </strong> | <small>2021 - 2023</small></p>
-                            <p> As a System Administrator at ITC Infotech in India, I was responsible for maintaining and optimizing 
-the company's IT infrastructure. This role required me to troubleshoot technical issues, manage servers, 
-and implement security protocols to ensure smooth operations.
-• Managed and maintained company's systems and servers 
-• Implemented security protocols
-• Resolved technical issues
-• Optimized IT infrastructure </p>
-                        </div>
-                        <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">Junior Software Developer</h5>
-                            <p class="mb-2"><strong>ATT System India Pvt Ltd</strong> | <small>2021 - 2021</small></p>
-                            <p> As a Junior Software Developer at ATT system india, I had the opportunity to work on various projects 
-and gain hands-on experience in software development. I collaborated with a team of developers to 
-design and implement new features, debug code, and improve overall system performance. My time at 
-ATT system india allowed me to enhance my skills in programming languages such as Java and Python 
-while also learning about agile development methodologies.
-• Developed new software features
-• Debugged code and fixed technical issues
-• Participated in agile development processes
-• Improved system performance through code optimization </p>
-                        </div>
-                        <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">System Admin</h5>
-                            <p class="mb-2"><strong>Sri Chandra Sekara Hospital</strong> | <small>2014 - 2021</small></p>
-                            <p> As a System Administrator at SRI Chandra Sekara Hospital in India from December 2014 to January 
-2021, I was responsible for maintaining the hospital's computer systems and networks to ensure smooth 
-operations and data security. I worked closely with the IT team and hospital staff to troubleshoot 
-technical issues and implement new software and hardware solutions.
-• Oversaw daily maintenance of hospital computer systems
-• Managed network security and backups
-• Implemented new software for improved efficiency
-• Collaborated with IT team and hospital staff </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div>
+      <div class="info-grid">
+        <div class="info-card"><div class="info-lbl">Name</div><div class="info-val">Saravanan V</div></div>
+        <div class="info-card"><div class="info-lbl">Degree</div><div class="info-val">Master's (MCA)</div></div>
+        <div class="info-card"><div class="info-lbl">Experience</div><div class="info-val">10 Years</div></div>
+        <div class="info-card"><div class="info-lbl">Phone</div><div class="info-val">+91 9597952600</div></div>
+        <div class="info-card" style="grid-column:1/-1"><div class="info-lbl">Email</div><div class="info-val">saranv91@outlook.com</div></div>
+        <div class="info-card" style="grid-column:1/-1"><div class="info-lbl">Location</div><div class="info-val">#19 PWD Road B, Narayanpura, Bangalore</div></div>
+      </div>
     </div>
-    <!-- Qualification End -->
+  </div>
+</section>
 
+<hr class="divider">
 
-    <!-- Skill Start -->
-    <div class="container-fluid py-5" id="skill">
-        <div class="container">
-            <div class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Skills</h1>
-                <h1 class="position-absolute text-uppercase text-primary">My Skills</h1>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <div class="skill mb-4">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">HTML</h6>
-                            <h6 class="font-weight-bold">95%</h6>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="skill mb-4">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">CSS</h6>
-                            <h6 class="font-weight-bold">65%</h6>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="skill mb-4">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">Java script</h6>
-                            <h6 class="font-weight-bold">50%</h6>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="skill mb-4">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">Infra Support</h6>
-                            <h6 class="font-weight-bold">95%</h6>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="skill mb-4">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">Active Directory</h6>
-                            <h6 class="font-weight-bold">55%</h6>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-dark" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="skill mb-4">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">Wordpress</h6>
-                            <h6 class="font-weight-bold">85%</h6>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- ===================== EXPERIENCE ===================== -->
+<section id="experience">
+  <p class="section-eyebrow animate">My journey</p>
+  <h2 class="section-title animate">Education &amp; Experience</h2>
+  <div class="qual-grid animate">
+    <div>
+      <p class="qual-col-title">Education</p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date">2023 – 2025</div>
+          <div class="tl-title">Master in Computer Application</div>
+          <div class="tl-org">Jain University, Bangalore</div>
         </div>
+        <div class="tl-item">
+          <div class="tl-date">2021 – 2023</div>
+          <div class="tl-title">Bachelor of Computer Application</div>
+          <div class="tl-org">Annamalai University, Bangalore</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2009 – 2012</div>
+          <div class="tl-title">Diploma in IT</div>
+          <div class="tl-org">Salem Polytechnic College, Salem TN</div>
+        </div>
+      </div>
     </div>
-    <!-- Skill End -->
-
-
-    <!-- Services Start 
-    <div class="container-fluid pt-5" id="service">
-        <div class="container">
-            <div class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Service</h1>
-                <h1 class="position-absolute text-uppercase text-primary">My Services</h1>
-            </div>
-            <div class="row pb-3">
-                <div class="col-lg-4 col-md-6 text-center mb-5">
-                    <div class="d-flex align-items-center justify-content-center mb-4">
-                        <i class="fa fa-2x fa-laptop service-icon bg-primary text-white mr-3"></i>
-                        <h4 class="font-weight-bold m-0">Web Design</h4>
-                    </div>
-                    <p>Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem lorem lorem est amet labore eirmod erat clita</p>
-                    <a class="border-bottom border-primary text-decoration-none" href="">Read More</a>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center mb-5">
-                    <div class="d-flex align-items-center justify-content-center mb-4">
-                        <i class="fa fa-2x fa-laptop-code service-icon bg-primary text-white mr-3"></i>
-                        <h4 class="font-weight-bold m-0">Web Development</h4>
-                    </div>
-                    <p>Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem lorem lorem est amet labore eirmod erat clita</p>
-                    <a class="border-bottom border-primary text-decoration-none" href="">Read More</a>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center mb-5">
-                    <div class="d-flex align-items-center justify-content-center mb-4">
-                        <i class="fab fa-2x fa-android service-icon bg-primary text-white mr-3"></i>
-                        <h4 class="font-weight-bold m-0">Apps Design</h4>
-                    </div>
-                    <p>Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem lorem lorem est amet labore eirmod erat clita</p>
-                    <a class="border-bottom border-primary text-decoration-none" href="">Read More</a>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center mb-5">
-                    <div class="d-flex align-items-center justify-content-center mb-4">
-                        <i class="fab fa-2x fa-apple service-icon bg-primary text-white mr-3"></i>
-                        <h4 class="font-weight-bold m-0">Apps Development</h4>
-                    </div>
-                    <p>Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem lorem lorem est amet labore eirmod erat clita</p>
-                    <a class="border-bottom border-primary text-decoration-none" href="">Read More</a>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center mb-5">
-                    <div class="d-flex align-items-center justify-content-center mb-4">
-                        <i class="fa fa-2x fa-search service-icon bg-primary text-white mr-3"></i>
-                        <h4 class="font-weight-bold m-0">SEO</h4>
-                    </div>
-                    <p>Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem lorem lorem est amet labore eirmod erat clita</p>
-                    <a class="border-bottom border-primary text-decoration-none" href="">Read More</a>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center mb-5">
-                    <div class="d-flex align-items-center justify-content-center mb-4">
-                        <i class="fa fa-2x fa-edit service-icon bg-primary text-white mr-3"></i>
-                        <h4 class="font-weight-bold m-0">Content Creating</h4>
-                    </div>
-                    <p>Justo sit justo eos amet tempor amet clita amet ipsum eos elitr. Amet lorem lorem lorem est amet labore eirmod erat clita</p>
-                    <a class="border-bottom border-primary text-decoration-none" href="">Read More</a>
-                </div>
-            </div>
+    <div>
+      <p class="qual-col-title">Experience</p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date">2021 – 2023</div>
+          <div class="tl-title">System Administrator</div>
+          <div class="tl-org">ITC Infotech, Bangalore</div>
+          <div class="tl-desc">Managed servers, implemented security protocols, optimized IT infrastructure and resolved complex technical issues.</div>
         </div>
+        <div class="tl-item">
+          <div class="tl-date">2021</div>
+          <div class="tl-title">Junior Software Developer</div>
+          <div class="tl-org">ATT System India Pvt Ltd</div>
+          <div class="tl-desc">Developed features in Java &amp; Python, debugged code, and participated in agile development processes.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2014 – 2021</div>
+          <div class="tl-title">System Administrator</div>
+          <div class="tl-org">Sri Chandra Sekara Hospital</div>
+          <div class="tl-desc">Maintained hospital systems &amp; networks, managed backups, network security and software implementations.</div>
+        </div>
+      </div>
     </div>
-    -->
-    
-    <!-- Services End -->
-    
-    
+  </div>
+</section>
 
-    <!-- Portfolio Start 
-    <div class="container-fluid pt-5 pb-3" id="portfolio">
-        <div class="container">
-            <div class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Gallery</h1>
-                <h1 class="position-absolute text-uppercase text-primary">My Portfolio</h1>
-            </div>
-            <div class="row">
-                <div class="col-12 text-center mb-2">
-                    <ul class="list-inline mb-4" id="portfolio-flters">
-                        <li class="btn btn-sm btn-outline-primary m-1 active"  data-filter="*">All</li>
-                        <li class="btn btn-sm btn-outline-primary m-1" data-filter=".first">Design</li>
-                        <li class="btn btn-sm btn-outline-primary m-1" data-filter=".second">Development</li>
-                        <li class="btn btn-sm btn-outline-primary m-1" data-filter=".third">Marketing</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row portfolio-container">
-                <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
-                    <div class="position-relative overflow-hidden mb-2">
-                        <img class="img-fluid rounded w-100" src="img/portfolio-1.jpg" alt="">
-                        <div class="portfolio-btn bg-primary d-flex align-items-center justify-content-center">
-                            <a href="img/portfolio-1.jpg" data-lightbox="portfolio">
-                                <i class="fa fa-plus text-white" style="font-size: 60px;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
-                    <div class="position-relative overflow-hidden mb-2">
-                        <img class="img-fluid rounded w-100" src="img/portfolio-2.jpg" alt="">
-                        <div class="portfolio-btn bg-primary d-flex align-items-center justify-content-center">
-                            <a href="img/portfolio-2.jpg" data-lightbox="portfolio">
-                                <i class="fa fa-plus text-white" style="font-size: 60px;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4 portfolio-item third">
-                    <div class="position-relative overflow-hidden mb-2">
-                        <img class="img-fluid rounded w-100" src="img/portfolio-3.jpg" alt="">
-                        <div class="portfolio-btn bg-primary d-flex align-items-center justify-content-center">
-                            <a href="img/portfolio-3.jpg" data-lightbox="portfolio">
-                                <i class="fa fa-plus text-white" style="font-size: 60px;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
-                    <div class="position-relative overflow-hidden mb-2">
-                        <img class="img-fluid rounded w-100" src="img/portfolio-4.jpg" alt="">
-                        <div class="portfolio-btn bg-primary d-flex align-items-center justify-content-center">
-                            <a href="img/portfolio-4.jpg" data-lightbox="portfolio">
-                                <i class="fa fa-plus text-white" style="font-size: 60px;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
-                    <div class="position-relative overflow-hidden mb-2">
-                        <img class="img-fluid rounded w-100" src="img/portfolio-5.jpg" alt="">
-                        <div class="portfolio-btn bg-primary d-flex align-items-center justify-content-center">
-                            <a href="img/portfolio-5.jpg" data-lightbox="portfolio">
-                                <i class="fa fa-plus text-white" style="font-size: 60px;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4 portfolio-item third">
-                    <div class="position-relative overflow-hidden mb-2">
-                        <img class="img-fluid rounded w-100" src="img/portfolio-6.jpg" alt="">
-                        <div class="portfolio-btn bg-primary d-flex align-items-center justify-content-center">
-                            <a href="img/portfolio-6.jpg" data-lightbox="portfolio">
-                                <i class="fa fa-plus text-white" style="font-size: 60px;"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Portfolio End -->
+<hr class="divider">
 
-
-    <!-- Testimonial Start 
-    <div class="container-fluid py-5" id="testimonial">
-        <div class="container">
-            <div class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Review</h1>
-                <h1 class="position-absolute text-uppercase text-primary">Clients Say</h1>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="owl-carousel testimonial-carousel">
-                        <div class="text-center">
-                            <i class="fa fa-3x fa-quote-left text-primary mb-4"></i>
-                            <h4 class="font-weight-light mb-4">Dolor eirmod diam stet kasd sed. Aliqu rebum est eos. Rebum elitr dolore et eos labore, stet justo sed est sed. Diam sed sed dolor stet accusam amet eirmod eos, labore diam clita</h4>
-                            <img class="img-fluid rounded-circle mx-auto mb-3" src="img/testimonial-1.jpg" style="width: 80px; height: 80px;">
-                            <h5 class="font-weight-bold m-0">Client Name</h5>
-                            <span>Profession</span>
-                        </div>
-                        <div class="text-center">
-                            <i class="fa fa-3x fa-quote-left text-primary mb-4"></i>
-                            <h4 class="font-weight-light mb-4">Dolor eirmod diam stet kasd sed. Aliqu rebum est eos. Rebum elitr dolore et eos labore, stet justo sed est sed. Diam sed sed dolor stet accusam amet eirmod eos, labore diam clita</h4>
-                            <img class="img-fluid rounded-circle mx-auto mb-3" src="img/testimonial-2.jpg" style="width: 80px; height: 80px;">
-                            <h5 class="font-weight-bold m-0">Client Name</h5>
-                            <span>Profession</span>
-                        </div>
-                        <div class="text-center">
-                            <i class="fa fa-3x fa-quote-left text-primary mb-4"></i>
-                            <h4 class="font-weight-light mb-4">Dolor eirmod diam stet kasd sed. Aliqu rebum est eos. Rebum elitr dolore et eos labore, stet justo sed est sed. Diam sed sed dolor stet accusam amet eirmod eos, labore diam clita</h4>
-                            <img class="img-fluid rounded-circle mx-auto mb-3" src="img/testimonial-3.jpg" style="width: 80px; height: 80px;">
-                            <h5 class="font-weight-bold m-0">Client Name</h5>
-                            <span>Profession</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Testimonial End -->
-
-
-    <!-- Blog Start 
-    <div class="container-fluid pt-5" id="blog">
-        <div class="container">
-            <div class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Blog</h1>
-                <h1 class="position-absolute text-uppercase text-primary">Latest Blog</h1>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 mb-5">
-                    <div class="position-relative mb-4">
-                        <img class="img-fluid rounded w-100" src="img/blog-1.jpg" alt="">
-                        <div class="blog-date">
-                            <h4 class="font-weight-bold mb-n1">01</h4>
-                            <small class="text-white text-uppercase">Jan</small>
-                        </div>
-                    </div>
-                    <h5 class="font-weight-medium mb-4">Rebum lorem no eos ut ipsum diam tempor sed rebum elitr ipsum</h5>
-                    <a class="btn btn-sm btn-outline-primary py-2" href="">Read More</a>
-                </div>
-                <div class="col-lg-4 mb-5">
-                    <div class="position-relative mb-4">
-                        <img class="img-fluid rounded w-100" src="img/blog-2.jpg" alt="">
-                        <div class="blog-date">
-                            <h4 class="font-weight-bold mb-n1">01</h4>
-                            <small class="text-white text-uppercase">Jan</small>
-                        </div>
-                    </div>
-                    <h5 class="font-weight-medium mb-4">Rebum lorem no eos ut ipsum diam tempor sed rebum elitr ipsum</h5>
-                    <a class="btn btn-sm btn-outline-primary py-2" href="">Read More</a>
-                </div>
-                <div class="col-lg-4 mb-5">
-                    <div class="position-relative mb-4">
-                        <img class="img-fluid rounded w-100" src="img/blog-3.jpg" alt="">
-                        <div class="blog-date">
-                            <h4 class="font-weight-bold mb-n1">01</h4>
-                            <small class="text-white text-uppercase">Jan</small>
-                        </div>
-                    </div>
-                    <h5 class="font-weight-medium mb-4">Rebum lorem no eos ut ipsum diam tempor sed rebum elitr ipsum</h5>
-                    <a class="btn btn-sm btn-outline-primary py-2" href="">Read More</a>
-                </div>
-            </div>
-        </div>
-    </div> 
-    -->
-    <!-- Blog End -->
-
-
-    <!-- Contact Start -->
-    <div class="container-fluid py-5" id="contact">
-        <div class="container">
-            <div class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Contact</h1>
-                <h1 class="position-absolute text-uppercase text-primary">Contact Me</h1>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="contact-form text-center">
-                        <div id="success"></div>
-                        <form name="sentMessage" id="contactForm" novalidate="novalidate">
-                            <div class="form-row">
-                                <div class="control-group col-sm-6">
-                                    <input type="text" class="form-control p-4" id="name" placeholder="Your Name"
-                                        required="required" data-validation-required-message="Please enter your name" />
-                                    <p class="help-block text-danger"></p>
-                                </div>
-                                <div class="control-group col-sm-6">
-                                    <input type="email" class="form-control p-4" id="email" placeholder="Your Email"
-                                        required="required" data-validation-required-message="Please enter your email" />
-                                    <p class="help-block text-danger"></p>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <input type="text" class="form-control p-4" id="subject" placeholder="Subject"
-                                    required="required" data-validation-required-message="Please enter a subject" />
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div class="control-group">
-                                <textarea class="form-control py-3 px-4" rows="5" id="message" placeholder="Message"
-                                    required="required"
-                                    data-validation-required-message="Please enter your message"></textarea>
-                                <p class="help-block text-danger"></p>
-                            </div>
-                            <div>
-                                <button class="btn btn-outline-primary" type="submit" id="sendMessageButton">Send
-                                    Message</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- ===================== SKILLS ===================== -->
+<section id="skills">
+  <p class="section-eyebrow animate">What I know</p>
+  <h2 class="section-title animate">My Skills</h2>
+  <div class="skills-wrap animate" id="skills-section">
+    <div>
+      <div class="skill-item">
+        <div class="skill-hd"><span class="skill-name">HTML</span><span class="skill-pct">95%</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-w="95%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-hd"><span class="skill-name">CSS</span><span class="skill-pct">65%</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-w="65%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-hd"><span class="skill-name">JavaScript</span><span class="skill-pct">50%</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-w="50%"></div></div>
+      </div>
     </div>
-    <!-- Contact End -->
-
-
-    <!-- Footer Start -->
-    <div class="container-fluid bg-primary text-white mt-5 py-5 px-sm-3 px-md-5">
-        <div class="container text-center py-5">
-            <div class="d-flex justify-content-center mb-4">
-                <a class="btn btn-light btn-social mr-2" href="#"><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-light btn-social mr-2" href="https://www.facebook.com/share/t1sMoWPDsHRZhGev/?mibextid=qi2Omg"><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-light btn-social mr-2" href="https://www.linkedin.com/in/saravanan-sa"><i class="fab fa-linkedin-in"></i></a>
-                <a class="btn btn-light btn-social" href="https://www.instagram.com/me_saranv?utm_source=qr&igsh=MTIwMDByaWZ0ZDUxcg=="><i class="fab fa-instagram"></i></a>
-            </div>
-            <div class="d-flex justify-content-center mb-3">
-                <a class="text-white" href="#">Privacy</a>
-                <span class="px-3">|</span>
-                <a class="text-white" href="#">Terms</a>
-                <span class="px-3">|</span>
-                <a class="text-white" href="#">FAQs</a>
-                <span class="px-3">|</span>
-                <a class="text-white" href="#">Help</a>
-            </div>
-            <p class="m-0">&copy; <a class="text-white font-weight-bold" href="#">Domain Name</a>. All Rights Reserved. Designed by SARAN
-            </p>
-        </div>
+    <div>
+      <div class="skill-item">
+        <div class="skill-hd"><span class="skill-name">Infra Support</span><span class="skill-pct">95%</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-w="95%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-hd"><span class="skill-name">Active Directory</span><span class="skill-pct">55%</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-w="55%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-hd"><span class="skill-name">WordPress</span><span class="skill-pct">85%</span></div>
+        <div class="bar-bg"><div class="bar-fill" data-w="85%"></div></div>
+      </div>
     </div>
-    <!-- Footer End -->
+  </div>
+</section>
 
-    <!-- Scroll to Bottom -->
-    <i class="fa fa-2x fa-angle-down text-white scroll-to-bottom"></i>
+<hr class="divider">
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-outline-dark px-0 back-to-top"><i class="fa fa-angle-double-up"></i></a>
+<!-- ===================== CONTACT ===================== -->
+<section id="contact">
+  <p class="section-eyebrow animate">Get in touch</p>
+  <h2 class="section-title animate">Contact Me</h2>
+  <div class="contact-wrap animate">
+    <div>
+      <div class="ci-item">
+        <div class="ci-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M3 5l9 8 9-8"/></svg>
+        </div>
+        <div><div class="ci-lbl">Email</div><div class="ci-val">saranv91@outlook.com</div></div>
+      </div>
+      <div class="ci-item">
+        <div class="ci-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.5 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.41 1.34h3a2 2 0 012 1.72c.12.96.36 1.9.72 2.81a2 2 0 01-.45 2.11L7.09 9.91a16 16 0 006.29 6.29l1.93-1.93a2 2 0 012.11-.45c.91.36 1.85.6 2.81.72A2 2 0 0122 13.92z"/></svg>
+        </div>
+        <div><div class="ci-lbl">Phone</div><div class="ci-val">+91 9597952600</div></div>
+      </div>
+      <div class="ci-item">
+        <div class="ci-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <div><div class="ci-lbl">Location</div><div class="ci-val">Narayanpura, Bangalore</div></div>
+      </div>
+      <div class="socials" style="justify-content:flex-start; margin-top:1rem;">
+        <a class="soc" href="https://www.linkedin.com/in/saravanan-sa" title="LinkedIn">in</a>
+        <a class="soc" href="https://www.facebook.com/share/t1sMoWPDsHRZhGev/" title="Facebook">fb</a>
+        <a class="soc" href="https://www.instagram.com/me_saranv" title="Instagram">ig</a>
+      </div>
+    </div>
 
+    <!-- Contact Form (powered by EmailJS) -->
+    <div>
+      <div class="form-row2">
+        <div class="fg">
+          <label>Your Name</label>
+          <input type="text" id="fn" placeholder="John Doe">
+        </div>
+        <div class="fg">
+          <label>Your Email</label>
+          <input type="email" id="fe" placeholder="john@example.com">
+        </div>
+      </div>
+      <div class="fg">
+        <label>Subject</label>
+        <input type="text" id="fs" placeholder="Project Inquiry">
+      </div>
+      <div class="fg">
+        <label>Message</label>
+        <textarea id="fm" placeholder="Tell me about your project..."></textarea>
+      </div>
+      <button class="send-btn" id="sbtn" onclick="sendEmail()">Send Message</button>
+      <div id="fstatus"></div>
+    </div>
+  </div>
+</section>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/typed/typed.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="lib/lightbox/js/lightbox.min.js"></script>
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="foot-brand">Saravanan V</div>
+  <p style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:1.2rem">
+    System Admin &amp; Web Developer · Bangalore
+  </p>
+  <div class="socials">
+    <a class="soc" href="https://www.linkedin.com/in/saravanan-sa" title="LinkedIn">in</a>
+    <a class="soc" href="https://www.facebook.com/share/t1sMoWPDsHRZhGev/" title="Facebook">fb</a>
+    <a class="soc" href="https://www.instagram.com/me_saranv" title="Instagram">ig</a>
+  </div>
+  <p class="foot-copy">&copy; 2025 Saravanan V. All rights reserved.</p>
+</footer>
 
-    <!-- Contact Javascript File -->
-    <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script>
+<!-- ===================== CHATBOT LAUNCHER ===================== -->
+<button class="chatbot-launcher" id="chat-launch" onclick="toggleChat()">
+  <div class="chat-badge" id="chat-badge">1</div>
+  <svg viewBox="0 0 24 24">
+    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+  </svg>
+</button>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+<!-- ===================== CHATBOT PANEL ===================== -->
+<div class="chatbot-panel" id="chat-panel">
+  <div class="chat-header">
+    <div class="chat-avatar">SV</div>
+    <div class="chat-hinfo">
+      <div class="chat-hname">Saravanan's Assistant</div>
+      <div class="chat-hstatus">
+        <div class="chat-status-dot"></div>
+        Online · Replies instantly
+      </div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">&#x00D7;</button>
+  </div>
+
+  <div class="chat-msgs" id="chat-msgs"></div>
+
+  <div class="chat-quick" id="quick-btns">
+    <button class="qbtn" onclick="quickMsg('What are your skills?')">Skills</button>
+    <button class="qbtn" onclick="quickMsg('Tell me about your experience')">Experience</button>
+    <button class="qbtn" onclick="quickMsg('How can I hire you?')">Hire</button>
+    <button class="qbtn" onclick="quickMsg('What is your education?')">Education</button>
+    <button class="qbtn" onclick="quickMsg('How to contact you?')">Contact</button>
+  </div>
+
+  <div class="chat-input-row">
+    <input
+      class="chat-input"
+      id="chat-in"
+      placeholder="Ask me anything..."
+      onkeydown="if(event.key==='Enter') sendChat()"
+    >
+    <button class="chat-send" onclick="sendChat()">
+      <svg viewBox="0 0 24 24">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+  /* ---------- EmailJS init ---------- */
+  (function(){
+    try {
+      emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // <-- Replace with your EmailJS Public Key
+    } catch(e) {}
+  })();
+
+  /* ---------- Typing animation ---------- */
+  var typed   = ["System Administrator","Web Developer","IT Support Specialist","Front-End Developer","Network Engineer"];
+  var ti = 0, ci = 0, del = false;
+  function typeAnim(){
+    var el   = document.getElementById("typed-out");
+    if (!el) return;
+    var word = typed[ti];
+    if (!del) {
+      el.textContent = word.slice(0, ++ci);
+      if (ci === word.length) { del = true; setTimeout(typeAnim, 1800); return; }
+    } else {
+      el.textContent = word.slice(0, --ci);
+      if (ci === 0) { del = false; ti = (ti + 1) % typed.length; }
+    }
+    setTimeout(typeAnim, del ? 60 : 100);
+  }
+  setTimeout(typeAnim, 600);
+
+  /* ---------- Scroll-triggered animations ---------- */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+        if (e.target.id === "skills-section") animBars();
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll(".animate").forEach(function(el){ io.observe(el); });
+
+  /* ---------- Skill bars ---------- */
+  var barsAnimated = false;
+  function animBars(){
+    if (barsAnimated) return;
+    barsAnimated = true;
+    document.querySelectorAll(".bar-fill").forEach(function(b){
+      b.style.width = b.getAttribute("data-w");
+    });
+  }
+
+  /* ---------- EmailJS send ---------- */
+  function sendEmail(){
+    var n   = document.getElementById('fn').value.trim();
+    var e   = document.getElementById('fe').value.trim();
+    var s   = document.getElementById('fs').value.trim();
+    var m   = document.getElementById('fm').value.trim();
+    var st  = document.getElementById('fstatus');
+    var btn = document.getElementById('sbtn');
+
+    if (!n || !e || !s || !m) {
+      st.className = 'fs-err'; st.style.display = 'block';
+      st.textContent = 'Please fill in all fields.'; return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) {
+      st.className = 'fs-err'; st.style.display = 'block';
+      st.textContent = 'Please enter a valid email address.'; return;
+    }
+
+    btn.disabled = true; btn.textContent = 'Sending…'; st.style.display = 'none';
+
+    emailjs.send(
+      "YOUR_SERVICE_ID",   // <-- Replace with your EmailJS Service ID
+      "YOUR_TEMPLATE_ID",  // <-- Replace with your EmailJS Template ID
+      { from_name: n, from_email: e, subject: s, message: m, to_email: "saranv91@outlook.com" }
+    ).then(function(){
+      btn.textContent = 'Send Message'; btn.disabled = false;
+      st.className = 'fs-ok'; st.style.display = 'block';
+      st.textContent = 'Message sent successfully! I\'ll reply soon.';
+      ['fn','fe','fs','fm'].forEach(function(id){ document.getElementById(id).value = ''; });
+    }).catch(function(){
+      btn.textContent = 'Send Message'; btn.disabled = false;
+      st.className = 'fs-err'; st.style.display = 'block';
+      st.textContent = 'Failed to send. Please email saranv91@outlook.com directly.';
+    });
+  }
+
+  /* ---------- Chatbot ---------- */
+  var chatOpen    = false;
+  var chatStarted = false;
+
+  function toggleChat(){
+    chatOpen = !chatOpen;
+    var p = document.getElementById('chat-panel');
+    var b = document.getElementById('chat-badge');
+    if (chatOpen) {
+      p.classList.add('open');
+      b.style.display = 'none';
+      if (!chatStarted) { chatStarted = true; botGreet(); }
+    } else {
+      p.classList.remove('open');
+    }
+  }
+
+  function botGreet(){
+    addBotMsg("Hi there! I'm Saravanan's virtual assistant. Ask me about his skills, experience, education, availability, or how to contact him!", 600);
+  }
+
+  function addBotMsg(txt, delay){
+    var msgs = document.getElementById('chat-msgs');
+    var dot  = document.createElement('div');
+    dot.className = 'msg bot';
+    dot.innerHTML = '<div class="msg-avatar">SV</div>' +
+                    '<div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+    msgs.appendChild(dot);
+    msgs.scrollTop = msgs.scrollHeight;
+    setTimeout(function(){
+      dot.querySelector('.msg-bubble').textContent = txt;
+      msgs.scrollTop = msgs.scrollHeight;
+    }, delay || 700);
+  }
+
+  function addUserMsg(txt){
+    var msgs = document.getElementById('chat-msgs');
+    var div  = document.createElement('div');
+    div.className = 'msg user';
+    div.innerHTML = '<div class="msg-bubble">' + txt + '</div>' +
+                    '<div class="msg-avatar" style="background:#E6F1FB;color:#185FA5">You</div>';
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  /* Smart reply dictionary */
+  var botReplies = {
+    skills:     "I'm proficient in HTML (95%), Infra Support (95%), WordPress (85%), CSS (65%), Active Directory (55%), and JavaScript (50%). I also have strong knowledge in networking and server management.",
+    experience: "I have 10+ years of IT experience. I worked as System Admin at ITC Infotech (2021-2023), Junior Software Developer at ATT System India (2021), and System Admin at Sri Chandra Sekara Hospital (2014-2021).",
+    education:  "I hold a Master's in Computer Application (MCA) from Jain University (2023-2025), a Bachelor's in Computer Application (BCA) from Annamalai University (2021-2023), and a Diploma in IT from Salem Polytechnic College (2009-2012).",
+    hire:       "I'm currently available for freelance projects! You can hire me by filling out the contact form on this page, emailing saranv91@outlook.com, or calling +91 9597952600. I'd love to discuss your project!",
+    contact:    "You can reach me at saranv91@outlook.com, call +91 9597952600, or use the contact form on this page. I'm based in Narayanpura, Bangalore.",
+    location:   "I'm based in #19 PWD Road B, Narayanpura, Bangalore, India. I'm open to remote work and on-site projects.",
+    name:       "I'm Saravanan V, a System Administrator and Web Developer with over 10 years of hands-on IT experience based in Bangalore, India.",
+    wordpress:  "I have 85% proficiency in WordPress — I can build, customize and maintain WordPress sites including themes, plugins, and performance optimization.",
+    salary:     "For salary or rate discussions, please get in touch directly via saranv91@outlook.com or call +91 9597952600. I'd be happy to discuss based on project scope.",
+    default:    [
+      "Great question! I'm best at answering questions about Saravanan's skills, experience, education, and how to contact or hire him. Try asking about those!",
+      "I'm not sure about that, but feel free to email saranv91@outlook.com for a direct answer from Saravanan himself!"
+    ]
+  };
+
+  function getBotReply(input){
+    var t = input.toLowerCase();
+    if (/skill|html|css|js|javascript|tech|infra|stack/i.test(t))       return botReplies.skills;
+    if (/experience|work|job|company|itc|att|hospital|career/i.test(t)) return botReplies.experience;
+    if (/education|degree|study|university|diploma|mca|bca|college/i.test(t)) return botReplies.education;
+    if (/hire|freelance|available|project|cost|rate|price/i.test(t))    return botReplies.hire;
+    if (/contact|email|phone|reach|call|message/i.test(t))              return botReplies.contact;
+    if (/location|where|city|address|bangalore/i.test(t))               return botReplies.location;
+    if (/who|name|about|yourself|introduce/i.test(t))                   return botReplies.name;
+    if (/wordpress|wp/i.test(t))                                        return botReplies.wordpress;
+    if (/salary|pay|rate|charge|fee/i.test(t))                          return botReplies.salary;
+    return botReplies.default[Math.floor(Math.random() * botReplies.default.length)];
+  }
+
+  function sendChat(){
+    var inp = document.getElementById('chat-in');
+    var txt = inp.value.trim();
+    if (!txt) return;
+    addUserMsg(txt);
+    inp.value = '';
+    document.getElementById('quick-btns').style.display = 'none';
+    addBotMsg(getBotReply(txt), 800);
+  }
+
+  function quickMsg(txt){
+    addUserMsg(txt);
+    document.getElementById('quick-btns').style.display = 'none';
+    addBotMsg(getBotReply(txt), 800);
+  }
+</script>
+
 </body>
-
 </html>
